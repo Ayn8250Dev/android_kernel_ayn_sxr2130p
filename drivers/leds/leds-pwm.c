@@ -220,7 +220,11 @@ static int led_pwm_add(struct device *dev, struct led_pwm_priv *priv,
 	if (!led_data->pwmstate.period)
 		led_data->pwmstate.period = led->pwm_period_ns;
 
-	ret = led_classdev_register(dev, &led_data->cdev);
+	led_data->period = pargs.period;
+	if (!led_data->period && (led->pwm_period_ns > 0))
+		led_data->period = led->pwm_period_ns;
+
+	ret = devm_led_classdev_register(dev, &led_data->cdev);
 	if (ret == 0) {
 		priv->num_leds++;
 		led_pwm_set(&led_data->cdev, led_data->cdev.brightness);
