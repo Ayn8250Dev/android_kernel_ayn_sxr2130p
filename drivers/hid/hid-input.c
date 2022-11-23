@@ -954,6 +954,9 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
 
 		case 0x0cd: map_key_clear(KEY_PLAYPAUSE);	break;
 		case 0x0cf: map_key_clear(KEY_VOICECOMMAND);	break;
+		case 0x0d5: map_key_clear(KEY_CAMERA_ACCESS_ENABLE);	break;
+		case 0x0d6: map_key_clear(KEY_CAMERA_ACCESS_DISABLE);	break;
+		case 0x0d7: map_key_clear(KEY_CAMERA_ACCESS_TOGGLE);	break;
 		case 0x0e0: map_abs_clear(ABS_VOLUME);		break;
 		case 0x0e2: map_key_clear(KEY_MUTE);		break;
 		case 0x0e5: map_key_clear(KEY_BASSBOOST);	break;
@@ -1870,4 +1873,3 @@ void hidinput_disconnect(struct hid_device *hid)
 	cancel_work_sync(&hid->led_work);
 }
 EXPORT_SYMBOL_GPL(hidinput_disconnect);
-
