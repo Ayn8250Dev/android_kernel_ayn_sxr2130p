@@ -661,6 +661,11 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
 		break;
 
 	case HID_UP_GENDESK:
+		if (usage->hid == (HID_UP_GENDESK | 0x009b)) {
+			map_key_clear(KEY_DO_NOT_DISTURB);
+			break;
+		}
+
 		if (usage->hid == (HID_UP_GENDESK | 0x00aa)) {
 			map_key_clear(KEY_ACCESSIBILITY);
 			break;
