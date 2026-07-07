@@ -1,3 +1,5 @@
+#include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
+
 &tlmm {
 	sde_dp_aux_active: sde_dp_aux_active {
 		mux {

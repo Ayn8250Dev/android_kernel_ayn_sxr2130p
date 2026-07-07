@@ -1,7 +1,3 @@
-#include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
-
-#include "../qcom/kona-qrd.dtsi"
-
 #include "kona-moorechip-common.dtsi"
 
 &kona_qrd_batterydata {
