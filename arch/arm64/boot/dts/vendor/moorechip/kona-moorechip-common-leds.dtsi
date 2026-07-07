@@ -1,0 +1,23 @@
+&qupv3_se5_i2c {
+	#address-cells = <0x01>;
+	#size-cells = <0x00>;
+	status = "ok";
+
+	htr3212l@3c {
+		compatible = "kona,htr3212l";
+		reg = <0x3c>;
+		htr3212l,dv-en1 = <&tlmm 0x05 0x00>;
+	};
+};
+
+&qupv3_se3_i2c {
+	#address-cells = <0x01>;
+	#size-cells = <0x00>;
+	status = "ok";
+
+	htr3212r@3c {
+		compatible = "kona,htr3212r";
+		reg = <0x3c>;
+		htr3212r,dv-en2 = <&tlmm 0x06 0x00>;
+	};
+};

@@ -1,0 +1,4 @@
+&qupv3_se16_2uart {
+	status = "ok";
+	qcom,auto-suspend-disable;
+};

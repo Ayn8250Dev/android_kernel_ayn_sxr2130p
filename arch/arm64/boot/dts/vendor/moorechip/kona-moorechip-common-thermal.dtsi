@@ -1,0 +1,43 @@
+&soc {
+	pm8150l_gpio6 {
+		compatible = "gpio5-pwm";
+		status = "ok";
+		pwms = <&pm8150l_pwm 0x00 100000>;
+		qcom,fan-en-gpio = <&tlmm 7 0x00>;
+		qcom,fan-fg-gpio = <&tlmm 0 0x2004>;
+		gpio5-pwm-state = <1>;
+		gpio5-pwm-duty-ns = <10000>;
+		gpio5-pwm-period-ns = <50000>;
+		pinctrl-names = "default", "fg_int";
+		pinctrl-0 = <&pmi_gpio6_pwm_active>;
+		pinctrl-1 = <&fg_int_default>;
+	};
+};
+
+&soc_trip {
+	temperature = <1>;
+};
+
+&pm8150l_gpios {
+	pm8150l_gpio6_pwm {
+		pmi_gpio6_pwm_active: pmi_gpio6_pwm_active {
+			pins = "gpio6";
+			function = "func1";
+			bias-disable;
+			power-source = <0x00>;
+			output-low;
+			qcom,drive-strength = <0x03>;
+			drive-push-pull;
+		};
+
+		pmi_gpio6_pwm_sleep: pmi_gpio6_pwm_sleep {
+			pins = "gpio6";
+			function = "func1";
+			bias-disable;
+			power-source = <0x00>;
+			output-low;
+			qcom,drive-strength = <0x03>;
+			drive-push-pull;
+		};
+	};
+};
