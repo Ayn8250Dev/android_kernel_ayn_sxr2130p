@@ -14,10 +14,6 @@
 	};
 };
 
-&soc_trip {
-	temperature = <1>;
-};
-
 &pm8150l_gpios {
 	pm8150l_gpio6_pwm {
 		pmi_gpio6_pwm_active: pmi_gpio6_pwm_active {
@@ -583,6 +579,5 @@
 				cooling-device = <&modem_skin 3 3>;
 			};
 		};
-
 	};
 };
