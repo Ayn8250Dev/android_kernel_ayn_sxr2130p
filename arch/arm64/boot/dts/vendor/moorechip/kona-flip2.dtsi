@@ -1,3 +1,5 @@
+#include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
+
 #include "../qcom/kona-qrd.dtsi"
 
 &kona_snd {
@@ -168,10 +170,6 @@
 
 &kona_qrd_batterydata {
 	#include "fg-gen4-batterydata-7717264-quectel-sg865w-5000mah.dtsi"
-};
-
-&qupv3_se16_2uart {
-	status = "ok";
 };
 
 &kona_snd {
@@ -428,33 +426,40 @@
 	qcom,mdss-dsi-panel-test-pin = <&tlmm 46 0>;
 };
 
-qupv3_se6_4uart {
+&qupv3_se6_4uart {
 	qcom,auto-suspend-disable;
 };
 
-qupv3_se16_2uart {
+// joystick
+&qupv3_se16_2uart {
+	status = "ok";
 	qcom,auto-suspend-disable;
 };
 
+// display vddio
 &pm8150_l14 {
 	qcom,init-mode = <RPMH_REGULATOR_MODE_HPM>;
 };
 
+// ufs vcc
 &pm8150_l17 {
 	regulator-min-microvolt = <2856000>;
 	qcom,init-voltage = <2856000>;
 };
 
+// display vdd1v2
 &pm8150a_l3 {
 	regulator-min-microvolt = <1200000>;
 	qcom,init-voltage = <1200000>;
 	qcom,init-mode = <RPMH_REGULATOR_MODE_HPM>;
 };
 
+// ???
 &pm8150a_l8 {
 	regulator-always-on;
 };
 
+// display vdd
 &pm8150a_l11 {
 	regulator-min-microvolt = <3304000>;
 	qcom,init-voltage = <3304000>;
