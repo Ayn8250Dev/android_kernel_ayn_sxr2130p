@@ -1,3 +1,9 @@
+#include <dt-bindings/gpio/gpio.h>
+#include "../qcom/kona-pmic-overlay.dtsi"
+#include "../qcom/kona-sde-display.dtsi"
+#include "../qcom/kona-audio-overlay.dtsi"
+#include "../qcom/kona-thermal-overlay.dtsi"
+
 #include "kona-moorechip-common-audio.dtsi"
 #include "kona-moorechip-common-display.dtsi"
 #include "kona-moorechip-common-gpu.dtsi"
@@ -16,16 +22,228 @@
 	};
 };
 
-&redriver {
-	status = "disabled";
+&vendor {
+	kona_qrd_batterydata: qcom,battery-data {
+		qcom,batt-id-range-pct = <15>;
+	};
+};
+
+&qupv3_se12_2uart {
+	status = "okay";
+};
+
+&pm8150a_amoled {
+	status = "ok";
+};
+
+&qupv3_se6_4uart {
+	qcom,auto-suspend-disable;
+	status = "ok";
+};
+
+// ufs vcc
+&pm8150_l17 {
+	regulator-min-microvolt = <2856000>;
+	qcom,init-voltage = <2856000>;
+};
+
+&ufsphy_mem {
+	compatible = "qcom,ufs-phy-qmp-v4";
+
+	vdda-phy-supply = <&pm8150_l5>;
+	vdda-phy-always-on;
+	vdda-pll-supply = <&pm8150_l9>;
+	vdda-phy-max-microamp = <89900>;
+	vdda-pll-max-microamp = <18800>;
+
+	status = "ok";
+};
+
+&ufshc_mem {
+	vdd-hba-supply = <&ufs_phy_gdsc>;
+	vdd-hba-fixed-regulator;
+	vcc-supply = <&pm8150_l17>;
+	vcc-voltage-level = <2504000 2950000>;
+	vcc-low-voltage-sup;
+	vccq-supply = <&pm8150_l6>;
+	vccq2-supply = <&pm8150_s4>;
+	vcc-max-microamp = <800000>;
+	vccq-max-microamp = <800000>;
+	vccq2-max-microamp = <800000>;
+
+	qcom,vddp-ref-clk-supply = <&pm8150_l6>;
+	qcom,vddp-ref-clk-max-microamp = <100>;
+	qcom,vccq-parent-supply = <&pm8150a_s8>;
+	qcom,vccq-parent-max-microamp = <210000>;
+
+	status = "ok";
+};
+
+&soc {
+	gpio_keys {
+		compatible = "gpio-keys";
+		label = "gpio-keys";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&key_vol_up_default>;
+
+		vol_up {
+			label = "volume_up";
+			gpios = <&pm8150_gpios 6 GPIO_ACTIVE_LOW>;
+			linux,input-type = <1>;
+			linux,code = <KEY_VOLUMEUP>;
+			gpio-key,wakeup;
+			debounce-interval = <15>;
+			linux,can-disable;
+		};
+	};
+};
+
+&vreg_hap_boost {
+	status = "ok";
+};
+
+&pm8150b_haptics {
+	qcom,vmax-mv = <1697>;
+	qcom,play-rate-us = <5882>;
+	vdd-supply = <&vreg_hap_boost>;
+	qcom,actuator-type = "erm";
+
+	wf_0 {
+		/* CLICK */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_1 {
+		/* DOUBLE CLICK */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_2 {
+		/* TICK */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_3 {
+		/* THUD */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_4 {
+		/* POP */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_5 {
+		/* HEAVY CLICK */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+};
+
+&pm8150b_charger {
+	status = "ok";
+	qcom,sec-charger-config = <1>;
+	qcom,auto-recharge-soc = <98>;
+	io-channels = <&pm8150b_vadc ADC_MID_CHG_DIV6>,
+		      <&pm8150b_vadc ADC_USB_IN_I>,
+		      <&pm8150b_vadc ADC_SBUx>,
+		      <&pm8150b_vadc ADC_VPH_PWR>,
+		      <&pm8150b_vadc ADC_CHG_TEMP>;
+	io-channel-names = "mid_voltage",
+			   "usb_in_current",
+			   "sbux_res",
+			   "vph_voltage",
+			   "chg_temp";
+	qcom,battery-data = <&kona_qrd_batterydata>;
+	qcom,sw-jeita-enable;
+	qcom,wd-bark-time-secs = <16>;
+	qcom,suspend-input-on-debug-batt;
+	qcom,fcc-stepping-enable;
+	qcom,smb-internal-pull-kohm = <0>;
+	qcom,thermal-mitigation = <5325000 4500000 4000000 3500000 3000000
+				2500000 2000000 1500000 1000000 500000>;
+};
+
+&pm8150b_fg {
+	status = "ok";
+	qcom,battery-data = <&kona_qrd_batterydata>;
+	qcom,hold-soc-while-full;
+	qcom,linearize-soc;
+	qcom,five-pin-battery;
+	qcom,cl-wt-enable;
+	qcom,soc-scale-mode-en;
+	/* ESR fast calibration */
+	qcom,fg-esr-timer-chg-fast = <0 7>;
+	qcom,fg-esr-timer-dischg-fast = <0 7>;
+	qcom,fg-esr-timer-chg-slow = <0 96>;
+	qcom,fg-esr-timer-dischg-slow = <0 96>;
+	qcom,fg-esr-cal-soc-thresh = <26 230>;
+	qcom,fg-esr-cal-temp-thresh = <10 40>;
+};
+
+&spmi_debug_bus {
+	status = "ok";
+};
+
+&sdhc_2 {
+	vdd-supply = <&pm8150a_l9>;
+	qcom,vdd-voltage-level = <2950000 2960000>;
+	qcom,vdd-current-level = <200 800000>;
+
+	vdd-io-supply = <&pm8150a_l6>;
+	qcom,vdd-io-voltage-level = <1808000 2960000>;
+	qcom,vdd-io-current-level = <200 22000>;
+
+	pinctrl-names = "active", "sleep";
+	pinctrl-0 = <&sdc2_clk_on  &sdc2_cmd_on &sdc2_data_on &storage_cd>;
+	pinctrl-1 = <&sdc2_clk_off &sdc2_cmd_off &sdc2_data_off &storage_cd>;
+
+	cd-gpios = <&tlmm 77 GPIO_ACTIVE_LOW>;
+
+	status = "ok";
+};
+
+&vendor {
+	bluetooth: bt_qca6390 {
+		compatible = "qca,qca6390";
+		pinctrl-names = "default";
+		pinctrl-0 = <&bt_en_sleep>;
+		qca,bt-reset-gpio = <&tlmm 21 0>; /* BT_EN */
+		qca,bt-sw-ctrl-gpio = <&tlmm 124 0>; /* SW_CTRL */
+		qca,bt-vdd-aon-supply = <&pm8150_s6>;
+		qca,bt-vdd-dig-supply = <&pm8009_s2>;
+		qca,bt-vdd-rfa1-supply = <&pm8150_s5>;
+		qca,bt-vdd-rfa2-supply = <&pm8150a_s8>;
+		qca,bt-vdd-asd-supply = <&pm8150_l16>;
+
+		qca,bt-vdd-aon-voltage-level = <950000 950000>;
+		qca,bt-vdd-dig-voltage-level = <950000 952000>;
+		qca,bt-vdd-rfa1-voltage-level = <1900000 1900000>;
+		qca,bt-vdd-rfa2-voltage-level = <1350000 1350000>;
+		qca,bt-vdd-asd-voltage-level = <3024000 3304000>;
+
+		qca,bt-vdd-asd-current-level = <10000>;
+	};
+};
+
+&usb0 {
+	dwc3@a600000 {
+		maximum-speed = "super-speed-plus";
+	};
 };
 
 &usb1 {
-	qcom,ignore-wakeup-src-in-hostmode;
+	status = "disabled";
+};
 
-	dwc3@a800000 {
-		dr_mode = "host";
-	};
+&wil6210 {
+	status = "ok";
 };
 
 &usb2_phy0 {
@@ -92,54 +310,6 @@
 	};
 };
 
-&qupv3_se1_i2c {
-	status = "disabled";
-};
-
-&pm8150b_haptics {
-	qcom,actuator-type = "erm";
-
-	wf_0 {
-		/* CLICK */
-		qcom,wf-play-rate-us = <10000>;
-		qcom,wf-vmax-mv = <3200>;
-	};
-
-	wf_1 {
-		/* DOUBLE CLICK */
-		qcom,wf-play-rate-us = <10000>;
-		qcom,wf-vmax-mv = <3200>;
-	};
-
-	wf_2 {
-		/* TICK */
-		qcom,wf-play-rate-us = <10000>;
-		qcom,wf-vmax-mv = <3200>;
-	};
-
-	wf_3 {
-		/* THUD */
-		qcom,wf-play-rate-us = <10000>;
-		qcom,wf-vmax-mv = <3200>;
-	};
-
-	wf_4 {
-		/* POP */
-		qcom,wf-play-rate-us = <10000>;
-		qcom,wf-vmax-mv = <3200>;
-	};
-
-	wf_5 {
-		/* HEAVY CLICK */
-		qcom,wf-play-rate-us = <10000>;
-		qcom,wf-vmax-mv = <3200>;
-	};
-};
-
-&qupv3_se15_i2c {
-	status = "disabled";
-};
-
 &pm8150b_charger {
 	qcom,lpd-disable;
 };
@@ -147,48 +317,6 @@
 &pm8150b_fg {
 	qcom,fg-force-load-profile;
 	qcom,fg-cutoff-voltage = <3400>;
-};
-
-&pm8150l_vadc {
-	gpio7_adc2@94 {
-		reg = <0x94>;
-		label = "gpio7_adc2";
-		qcom,pre-scaling = <1 3>;
-	};
-
-	gpio5_adc1@12 {
-		reg = <0x12>;
-		label = "gpio5_adc1";
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-		qcom,pre-scaling = <1 1>;
-	};
-
-	amux_adc3@d {
-		reg = <0x0d>;
-		label = "amux_adc3";
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-		qcom,pre-scaling = <1 1>;
-	};
-
-	amux_adc4@d {
-		reg = <0x0f>;
-		label = "amux_adc4";
-		qcom,ratiometric;
-		qcom,hw-settle-time = <200>;
-		qcom,pre-scaling = <1 1>;
-	};
-};
-
-&qupv3_se6_4uart {
-	qcom,auto-suspend-disable;
-};
-
-// ufs vcc
-&pm8150_l17 {
-	regulator-min-microvolt = <2856000>;
-	qcom,init-voltage = <2856000>;
 };
 
 &pm8009_s1 {
@@ -223,10 +351,6 @@
 	status = "disabled";
 };
 
-&usb1 {
-	status = "disabled";
-};
-
 &spmi_bus {
 	qcom,pm8009@a {
 		status = "disabled";
@@ -235,9 +359,7 @@
 	qcom,pm8009@b {
 		status = "disabled";
 	};
-};
 
-&spmi_bus {
 	qcom,pm8150@0 {
 		qcom,power-on@800 {
 			qcom,pon_1 {
