@@ -6,10 +6,10 @@
 #include <dt-bindings/clock/qcom,rpmh.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 
-#include "kona-flip2.dtsi"
+#include "kona-retroid-pocket-flip-2.dtsi"
 
 / {
-	model = "Qualcomm Technologies, Inc. kona HDK";
+	model = "Retroid Pocket Flip 2";
 	compatible = "qcom,kona-hdk", "qcom,kona", "qcom,hdk";
 	qcom,board-id = <0x01001F 0x01>;
 };
