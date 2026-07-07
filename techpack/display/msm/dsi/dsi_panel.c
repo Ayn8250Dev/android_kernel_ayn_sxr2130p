@@ -3678,11 +3678,7 @@ int dsi_panel_get_mode_count(struct dsi_panel *panel)
 	 */
 	num_video_modes = num_video_modes * num_bit_clks * num_dfps_rates;
 
-	if ((panel->panel_mode == DSI_OP_VIDEO_MODE) &&
-			(panel->panel_mode_switch_enabled))
-		num_cmd_modes  = 1;
-	else
-		num_cmd_modes = num_cmd_modes * num_bit_clks;
+	num_cmd_modes = num_cmd_modes * num_bit_clks;
 
 	panel->num_display_modes = num_video_modes + num_cmd_modes;
 
