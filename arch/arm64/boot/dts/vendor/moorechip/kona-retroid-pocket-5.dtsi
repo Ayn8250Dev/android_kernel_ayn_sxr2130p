@@ -1,0 +1,5 @@
+#include "kona-moorechip-common.dtsi"
+
+&kona_qrd_batterydata {
+	#include "fg-gen4-batterydata-7439278-sg865w-5000mah.dtsi"
+};
