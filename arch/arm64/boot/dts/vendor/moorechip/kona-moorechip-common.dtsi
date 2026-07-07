@@ -1,0 +1,255 @@
+#include "kona-moorechip-common-audio.dtsi"
+#include "kona-moorechip-common-display.dtsi"
+#include "kona-moorechip-common-gpu.dtsi"
+#include "kona-moorechip-common-joystick.dtsi"
+#include "kona-moorechip-common-leds.dtsi"
+#include "kona-moorechip-common-thermal.dtsi"
+
+/ {
+	mem-offline {
+		compatible = "qcom,mem-offline";
+		offline-sizes = <0x01 0x40000000 0x00 0x40000000>,
+			<0x01 0xc0000000 0x00 0x80000000>,
+			<0x02 0xc0000000 0x01 0x40000000>;
+		granule = <512>;
+		mboxes = <&qmp_aop 0x00>;
+	};
+};
+
+&redriver {
+	status = "disabled";
+};
+
+&usb1 {
+	qcom,ignore-wakeup-src-in-hostmode;
+
+	dwc3@a800000 {
+		dr_mode = "host";
+	};
+};
+
+&usb2_phy0 {
+	qcom,param-override-seq =
+		<0xc7 0x6c
+		0x42 0x70
+		0x03 0x74>;
+};
+
+&mdm0 {
+	status = "disabled";
+};
+
+&pcie2 {
+	qcom,boot-option = <0x0>;
+};
+
+&mhi_0 {
+	reg = <0x100 0x0 0x0 0x0 0x0>;
+};
+
+&pcie2_rp {
+	#address-cells = <5>;
+	#size-cells = <0>;
+
+	nvme: nvme {
+		reg = <0 0 0 0 0>;
+		qcom,iommu-group = <&nvme_pci_iommu_group>;
+
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		nvme_pci_iommu_group: nvme_pci_iommu_group {
+			qcom,iommu-dma-addr-pool = <0x20000000 0x40000000>;
+			qcom,iommu-dma = "fastmap";
+		};
+	};
+};
+
+&wlan {
+	/delete-property/ qcom,sw-ctrl-gpio;
+	/delete-property/ vdd-wlan-dig-supply;
+	/delete-property/ qcom,vdd-wlan-dig-config;
+};
+
+// ???
+&qupv3_se18_i2c_pins {
+	mux {
+		pins = "gpio56", "gpio55";
+	};
+
+	config {
+		pins = "gpio56", "gpio55";
+	};
+};
+
+&qupv3_se18_i2c_sleep {
+	mux {
+		pins = "gpio56", "gpio55";
+	};
+
+	config {
+		pins = "gpio56", "gpio55";
+	};
+};
+
+&qupv3_se1_i2c {
+	status = "disabled";
+};
+
+&pm8150b_haptics {
+	qcom,actuator-type = "erm";
+
+	wf_0 {
+		/* CLICK */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_1 {
+		/* DOUBLE CLICK */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_2 {
+		/* TICK */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_3 {
+		/* THUD */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_4 {
+		/* POP */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+
+	wf_5 {
+		/* HEAVY CLICK */
+		qcom,wf-play-rate-us = <10000>;
+		qcom,wf-vmax-mv = <3200>;
+	};
+};
+
+&qupv3_se15_i2c {
+	status = "disabled";
+};
+
+&pm8150b_charger {
+	qcom,lpd-disable;
+};
+
+&pm8150b_fg {
+	qcom,fg-force-load-profile;
+	qcom,fg-cutoff-voltage = <3400>;
+};
+
+&pm8150l_vadc {
+	gpio7_adc2@94 {
+		reg = <0x94>;
+		label = "gpio7_adc2";
+		qcom,pre-scaling = <1 3>;
+	};
+
+	gpio5_adc1@12 {
+		reg = <0x12>;
+		label = "gpio5_adc1";
+		qcom,ratiometric;
+		qcom,hw-settle-time = <200>;
+		qcom,pre-scaling = <1 1>;
+	};
+
+	amux_adc3@d {
+		reg = <0x0d>;
+		label = "amux_adc3";
+		qcom,ratiometric;
+		qcom,hw-settle-time = <200>;
+		qcom,pre-scaling = <1 1>;
+	};
+
+	amux_adc4@d {
+		reg = <0x0f>;
+		label = "amux_adc4";
+		qcom,ratiometric;
+		qcom,hw-settle-time = <200>;
+		qcom,pre-scaling = <1 1>;
+	};
+};
+
+&qupv3_se6_4uart {
+	qcom,auto-suspend-disable;
+};
+
+// ufs vcc
+&pm8150_l17 {
+	regulator-min-microvolt = <2856000>;
+	qcom,init-voltage = <2856000>;
+};
+
+&pm8009_s1 {
+	status = "disabled";
+};
+
+&pm8009_s2 {
+	status = "disabled";
+};
+
+&pm8009_l1 {
+	status = "disabled";
+};
+
+&pm8009_l2 {
+	status = "disabled";
+};
+
+&pm8009_l3 {
+	status = "disabled";
+};
+
+&pm8009_l5 {
+	status = "disabled";
+};
+
+&pm8009_l6 {
+	status = "disabled";
+};
+
+&pm8009_l7 {
+	status = "disabled";
+};
+
+&usb1 {
+	status = "disabled";
+};
+
+&spmi_bus {
+	qcom,pm8009@a {
+		status = "disabled";
+	};
+
+	qcom,pm8009@b {
+		status = "disabled";
+	};
+};
+
+&spmi_bus {
+	qcom,pm8150@0 {
+		qcom,power-on@800 {
+			qcom,pon_1 {
+				qcom,support-reset = <1>;
+				qcom,s1-timer = <6720>;
+				qcom,s2-timer = <2000>;
+				qcom,s2-type = <4>;
+			};
+		};
+	};
+};
+
+&flash_led {
+	status = "disable";
+};
