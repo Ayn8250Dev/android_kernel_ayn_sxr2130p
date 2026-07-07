@@ -1,22 +1,134 @@
 qcom,7717264_quectel_sg865w_5000mah_pm8150b_averaged_masterslave_mar12th2025 {
-	qcom,profile-revision = <0x18>;
-	qcom,max-voltage-uv = <0x432380>;
-	qcom,fg-cc-cv-threshould-mv = <0x1126>;
-	qcom,fastchg-current-ma = <0x14cd>;
-	qcom,jeita-fcc-ranges = <0x00 0xc8 0x1b1598 0xc9 0x190 0x5140c8 0x191 0x1c2 0x5140c8 0x1c3 0x1f4 0x3dcc50 0x1f5 0x226 0x106738>;
-	qcom,jeita-fv-ranges = <0x00 0x64 0x42d560 0x65 0x190 0x42d560 0x191 0x1c2 0x42d560 0x1c3 0x226 0x42d560>;
+	qcom,profile-revision = <24>;
+	qcom,max-voltage-uv = <4400000>;
+	qcom,fastchg-current-ma = <5325>;
+	qcom,jeita-fcc-ranges = <0   200  1775000
+				201  400  5325000
+				401  450  5325000
+				451  500  4050000
+				501  550  1075000>;
+	qcom,jeita-fv-ranges = <0   100  4380000
+				101 400  4380000
+				401 450  4380000
+				451 550  4380000>;
 	qcom,jeita-hard-thresholds = <0x58cd 0x181d>;
-	qcom,nom-batt-capacity-mah = <0x1388>;
-	qcom,batt-id-kohm = <0x04>;
-	qcom,battery-beta = <0x109a>;
-	qcom,therm-room-temp = <0x186a0>;
+	qcom,fg-cc-cv-threshold-mv = <4390>;
+	qcom,nom-batt-capacity-mah = <5000>;
+	qcom,batt-id-kohm = <4>;
+	qcom,battery-beta = <4250>;
+	qcom,therm-room-temp = <100000>;
 	qcom,battery-type = "7717264_quectel_sg865w_5000mah_pm8150b_averaged_masterslave_mar12th2025";
 	qcom,therm-coefficients = <0x2318 0xd0c 0xdaf7 0xc556 0x848d>;
 	qcom,therm-center-offset = <0x70>;
-	qcom,therm-pull-up = <0x64>;
+	qcom,therm-pull-up = <100>;
 	qcom,rslow-normal-coeffs = <0x61 0xfd 0x5d 0x12>;
 	qcom,rslow-low-coeffs = <0x55 0x0d 0x2a 0x0b>;
 	qcom,checksum = <0xa4c1>;
 	qcom,gui-version = "PM855GUI - 1.0.0.14";
-	qcom,fg-profile-data = <0x9002f00 0x3fcc7bcb 0x4dbd0000 0xcb4038a 0xfc8750a3 0x119d8c87 0x230061fd 0x5d12a805 0x3701ce07 0x3200a600 0x1800180 0xf41d6015 0x24040b14 0xd5124223 0x40003d00 0x3f004600 0x38003000 0x38004700 0x49004d00 0x40004000 0x3c003b00 0x37003600 0x32005c00 0x4c643f00 0x3c004008 0x40003000 0x30004b10 0x39103500 0x67204848 0x3b683407 0x4000d808 0xf71f0e0d 0xbb0247fe 0x681c7903 0x8205a922 0x401aab43 0x4e549e02 0x6a0e1821 0xfd05920b 0x6205021d 0x33fbd204 0xb203931a 0x1e1ac445 0x47538b0e 0x91209ce4 0x20d3c2cd 0xf31cddba 0xac05d7b2 0xc31acd8b 0xff85f2a2 0x90a00980 0xe6f2f40d 0xd03d6f2 0xf82be4 0x39eaf9e7 0x1002750d 0x34181c20 0xd62db602 0x12067603 0xce073200 0xbb02a404 0xb3056c05 0x2106be02 0xa6027804 0x8c054000 0x35003c00 0x3f644000 0x40f04200 0x49e04000 0x3e004010 0x40102f00 0x3d283e50 0x45684f09 0x37003f00 0x3f0841f8 0x40004000 0x31103f10 0x3a004528 0x55503570 0x3c084000 0x41004008 0xd8f8021f 0x15042c0a 0x80cfa1c 0x272bbf4d 0x776a9418 0x9036305 0x18035e0a 0x3f0ac11f 0x84059102 0x6104cf1c 0x1d03bd05 0x8c026d18 0x6303b504 0x32026500 0x8d1f9e05 0x9b022304 0xed1c3d02 0x2d054a03 0xd2188902 0xd041a02 0x6d00f100 0xc000fa00 0xb2140000>;
+	qcom,fg-profile-data = [
+		09 00 2F 00
+		3F CC 7B CB
+		4D BD 00 00
+		0C B4 03 8A
+		FC 87 50 A3
+		11 9D 8C 87
+		23 00 61 FD
+		5D 12 A8 05
+		37 01 CE 07
+		32 00 A6 00
+		01 80 01 80
+		F4 1D 60 15
+		24 04 0B 14
+		D5 12 42 23
+		40 00 3D 00
+		3F 00 46 00
+		38 00 30 00
+		38 00 47 00
+		49 00 4D 00
+		40 00 40 00
+		3C 00 3B 00
+		37 00 36 00
+		32 00 5C 00
+		4C 64 3F 00
+		3C 00 40 08
+		40 00 30 00
+		30 00 4B 10
+		39 10 35 00
+		67 20 48 48
+		3B 68 34 07
+		40 00 D8 08
+		F7 1F 0E 0D
+		BB 02 47 FE
+		68 1C 79 03
+		82 05 A9 22
+		40 1A AB 43
+		4E 54 9E 02
+		6A 0E 18 21
+		FD 05 92 0B
+		62 05 02 1D
+		33 FB D2 04
+		B2 03 93 1A
+		1E 1A C4 45
+		47 53 8B 0E
+		91 20 9C E4
+		20 D3 C2 CD
+		F3 1C DD BA
+		AC 05 D7 B2
+		C3 1A CD 8B
+		FF 85 F2 A2
+		90 A0 09 80
+		E6 F2 F4 0D
+		0D 03 D6 F2
+		00 F8 2B E4
+		39 EA F9 E7
+		10 02 75 0D
+		34 18 1C 20
+		D6 2D B6 02
+		12 06 76 03
+		CE 07 32 00
+		BB 02 A4 04
+		B3 05 6C 05
+		21 06 BE 02
+		A6 02 78 04
+		8C 05 40 00
+		35 00 3C 00
+		3F 64 40 00
+		40 F0 42 00
+		49 E0 40 00
+		3E 00 40 10
+		40 10 2F 00
+		3D 28 3E 50
+		45 68 4F 09
+		37 00 3F 00
+		3F 08 41 F8
+		40 00 40 00
+		31 10 3F 10
+		3A 00 45 28
+		55 50 35 70
+		3C 08 40 00
+		41 00 40 08
+		D8 F8 02 1F
+		15 04 2C 0A
+		08 0C FA 1C
+		27 2B BF 4D
+		77 6A 94 18
+		09 03 63 05
+		18 03 5E 0A
+		3F 0A C1 1F
+		84 05 91 02
+		61 04 CF 1C
+		1D 03 BD 05
+		8C 02 6D 18
+		63 03 B5 04
+		32 02 65 00
+		8D 1F 9E 05
+		9B 02 23 04
+		ED 1C 3D 02
+		2D 05 4A 03
+		D2 18 89 02
+		0D 04 1A 02
+		6D 00 F1 00
+		C0 00 FA 00
+		B2 14 00 00
+	];
 };
