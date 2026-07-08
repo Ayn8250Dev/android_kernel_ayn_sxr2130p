@@ -149,10 +149,6 @@
 	status = "disabled";
 };
 
-&msm_notifier {
-	panel = <&dsi_ch13726a_amoled_video>;
-};
-
 &mdss_mdp {
 	connectors = <&sde_dp &sde_dsi &sde_rscc>;
 };
