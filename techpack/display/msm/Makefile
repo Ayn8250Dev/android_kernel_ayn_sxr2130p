@@ -112,8 +112,7 @@ msm_drm-$(CONFIG_DRM_MSM) += \
 	msm_gem_prime.o \
 	msm_gem_vma.o \
 	msm_smmu.o \
-	msm_prop.o \
-	msm_notifier.o\
+	msm_prop.o
 
 obj-$(CONFIG_DRM_MSM)	+= msm_drm.o
 
