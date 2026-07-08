@@ -39,6 +39,7 @@ struct drm_encoder;
 struct drm_property;
 struct drm_property_blob;
 struct drm_printer;
+struct drm_panel;
 struct edid;
 
 enum drm_connector_force {
@@ -1207,6 +1208,13 @@ struct drm_connector {
 	 * &drm_mode_config.connector_free_work.
 	 */
 	struct llist_node free_node;
+
+	/**
+	 * @panel:
+	 *
+	 * Can find the panel which connected to drm_connector.
+	 */
+	struct drm_panel *panel;
 
 	/**
 	 * @checksum:
