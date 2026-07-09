@@ -8,10 +8,34 @@
 	moorechip,layout-nintendo;
 };
 
+&tlmm {
+	hall_switch: hall_switch {
+		hall_switch_default: hall_switch_default {
+			mux {
+				pins = "gpio123";
+				function = "gpio";
+			};
+			config {
+				pins = "gpio123";
+				drive_strength = <2>;
+				bias-disable;
+			};
+		};
+	};
+};
+
 &soc {
-	hal_wakeup_gpio {
-		compatible = "hal_wakeup";
-		hal-gpio = <&tlmm 123 0x00>;
+	gpio_keys {
+		pinctrl-0 = <&key_vol_up_default>, <&hall_switch_default>;
+
+		hall_switch {
+			label = "hall_switch";
+			gpios = <&tlmm 123 GPIO_ACTIVE_LOW>;
+			linux,input-type = <5>;
+			linux,code = <SW_LID>;
+			gpio-key,wakeup;
+			linux,can-disable;
+		};
 	};
 };
 
