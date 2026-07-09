@@ -1,6 +1,5 @@
 #include <dt-bindings/leds/common.h>
 
-/*
 &soc {
 	htr3212l_reg: htr3212l_reg {
 		compatible = "regulator-fixed";
@@ -232,4 +231,3 @@
 		};
 	};
 };
-*/
