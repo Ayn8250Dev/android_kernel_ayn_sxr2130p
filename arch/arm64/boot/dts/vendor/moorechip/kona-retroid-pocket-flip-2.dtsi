@@ -4,6 +4,10 @@
 	#include "fg-gen4-batterydata-7717264-quectel-sg865w-5000mah.dtsi"
 };
 
+&joystick {
+	moorechip,layout-nintendo;
+};
+
 &soc {
 	hal_wakeup_gpio {
 		compatible = "hal_wakeup";
