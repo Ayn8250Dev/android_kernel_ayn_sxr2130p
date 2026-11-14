@@ -129,10 +129,8 @@ static int msm_notifier_probe(struct platform_device *pdev)
 
 	active_displays = devm_kzalloc(&pdev->dev,
 				sizeof(*active_displays), GFP_KERNEL);
-	if (!active_displays) {
-		ret = -ENOMEM;
-		goto end;
-	}
+	if (!active_displays)
+		return -ENOMEM;
 
 	INIT_LIST_HEAD(&active_displays->list);
 
@@ -176,9 +174,6 @@ fail:
 	list_for_each_entry(display, &active_displays->list, list)
 		drm_panel_notifier_unregister(display->panel, &info->notifier);
 
-	devm_kfree(&pdev->dev, active_displays);
-end:
-	devm_kfree(&pdev->dev, info);
 	return ret;
 }
 
