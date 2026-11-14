@@ -1,0 +1,96 @@
+&soc {
+	joystick_vdd_reg: joystick_vdd_reg {
+		compatible = "regulator-fixed";
+		regulator-name = "joystick_vdd_reg";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		enable-active-high;
+		gpio = <&tlmm 3 GPIO_ACTIVE_HIGH>;
+	};
+
+	// AW3911
+	joystick_levelshifter_reg: joystick_levelshifter_reg {
+		compatible = "regulator-fixed";
+		regulator-name = "joystick_levelshifter_reg";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		enable-active-high;
+		gpio = <&tlmm 111 GPIO_ACTIVE_HIGH>;
+	};
+
+	qupv3_se16_2uart: qcom,qup_uart@888000 {
+		compatible = "qcom,msm-geni-serial-hs";
+		reg = <0x888000 0x4000>;
+		reg-names = "se_phys";
+		clock-names = "se-clk", "m-ahb", "s-ahb";
+		clocks = <&clock_gcc GCC_QUPV3_WRAP2_S2_CLK >,
+			<&clock_gcc GCC_QUPV3_WRAP_2_M_AHB_CLK >,
+			<&clock_gcc GCC_QUPV3_WRAP_2_S_AHB_CLK >;
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&qupv3_se16_rx>, <&qupv3_se16_tx>;
+		pinctrl-1 = <&qupv3_se16_rx>, <&qupv3_se16_tx>;
+		interrupts-extended = <&intc GIC_SPI 584 IRQ_TYPE_LEVEL_HIGH>;
+		status = "disabled";
+		qcom,wakeup-byte = <0xFD>;
+		qcom,wrapper-core = <&qupv3_2>;
+	};
+};
+
+&tlmm {
+	qupv3_se16_2uart_pins: qupv3_se16_2uart_pins {
+		qupv3_se16_rx: qupv3_se16_rx {
+			mux {
+				pins = "gpio51";
+				function = "qup16";
+			};
+
+			config {
+				pins = "gpio51";
+				drive-strength = <2>;
+				bias-pull-up;
+			};
+		};
+
+		qupv3_se16_tx: qupv3_se16_tx {
+			mux {
+				pins = "gpio50";
+				function = "qup16";
+			};
+
+			config {
+				pins = "gpio50";
+				drive-strength = <2>;
+				bias-pull-up;
+			};
+		};
+
+		qupv3_se16_sleep: qupv3_se16_sleep {
+			mux {
+				pins = "gpio50", "gpio51";
+				function = "gpio";
+			};
+
+			config {
+				pins = "gpio50", "gpio51";
+				drive-strength = <2>;
+				bias-pull-down;
+			};
+		};
+	};
+};
+
+&qupv3_se16_2uart {
+	status = "okay";
+
+	joystick: joystick {
+		status = "okay";
+		compatible = "moorechip,joystick";
+		vdd-supply = <&joystick_vdd_reg>;
+		levelshifter-supply = <&joystick_levelshifter_reg>;
+
+		moorechip,layout-nintendo;
+
+		moorechip,boot-gpio = <&tlmm 110 GPIO_ACTIVE_LOW>;
+		moorechip,reset-gpio = <&tlmm 109 GPIO_ACTIVE_LOW>;
+	};
+};
