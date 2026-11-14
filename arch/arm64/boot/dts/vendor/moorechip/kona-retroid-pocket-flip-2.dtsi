@@ -1,0 +1,45 @@
+#include "kona-moorechip-common.dtsi"
+
+&kona_qrd_batterydata {
+	#include "fg-gen4-batterydata-7717264-quectel-sg865w-5000mah.dtsi"
+};
+
+&joystick {
+	moorechip,layout-nintendo;
+};
+
+&tlmm {
+	hall_switch: hall_switch {
+		hall_switch_default: hall_switch_default {
+			mux {
+				pins = "gpio123";
+				function = "gpio";
+			};
+			config {
+				pins = "gpio123";
+				drive_strength = <2>;
+				bias-disable;
+			};
+		};
+	};
+};
+
+&soc {
+	gpio_keys {
+		pinctrl-0 = <&key_vol_up_default>, <&hall_switch_default>;
+
+		hall_switch {
+			label = "hall_switch";
+			gpios = <&tlmm 123 GPIO_ACTIVE_LOW>;
+			linux,input-type = <5>;
+			linux,code = <SW_LID>;
+			gpio-key,wakeup;
+			linux,can-disable;
+		};
+	};
+};
+
+// ???
+&pm8150a_l8 {
+	regulator-always-on;
+};
