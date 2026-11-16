@@ -1,0 +1,64 @@
+#include "kona-moorechip-common.dtsi"
+
+&kona_qrd_batterydata {
+	#include "fg-gen4-batterydata-7439278-sg865w-5000mah.dtsi"
+};
+
+&dsi_ch13726a_amoled_video {
+	qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
+	qcom,mdss-dsi-display-timings {
+		timing@0 {
+			qcom,mdss-dsi-panel-phy-timings = [00 1B 07 06 16 21 07
+				07 07 02 04 00 17 0C];
+			qcom,display-topology = <1 0 1>, <2 0 1>;
+			qcom,default-topology-index = <0>;
+		};
+	};
+};
+
+&qupv3_se13_i2c {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	status = "ok";
+	qcom,i2c-touch-active = "focaltech,fts_ts";
+
+	focaltech@38 {
+		compatible = "focaltech,fts_ts";
+		reg = <0x38>;
+
+		interrupt-parent = <&tlmm>;
+		interrupts = <39 0x2008>;
+		focaltech,reset-gpio = <&tlmm 38 0x00>;
+		focaltech,irq-gpio = <&tlmm 39 0x2008>;
+		focaltech,display-coords = <0 0 1080 1920>;
+		focaltech,max-touch-number = <10>;
+		focaltech,ic-type = <0x35190489>;
+		focaltech,touch-type = "primary";
+
+		vdd-supply = <&pm8150_l13>;
+		vcc_i2c-supply = <&pm8150a_l1>;
+
+		pinctrl-names = "pmx_ts_active", "pmx_ts_suspend", "pmx_ts_release";
+		pinctrl-0 = <&ts_active>;
+		pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
+		pinctrl-2 = <&pmx_ts_release>;
+		panel = <&dsi_ch13726a_amoled_video>;
+	};
+};
+
+&sde_dsi {
+	qcom,dsi-default-panel = <&dsi_ch13726a_amoled_video>;
+};
+
+&htr3212l {
+	panel = <&dsi_ch13726a_amoled_video>;
+};
+
+&htr3212r {
+	panel = <&dsi_ch13726a_amoled_video>;
+};
+
+&joystick {
+	panel = <&dsi_ch13726a_amoled_video>;
+};
