@@ -1,5 +1,6 @@
 #include <dt-bindings/regulator/qcom,rpmh-regulator-levels.h>
 #include "dsi-panel-ch13726a-amoled-video.dtsi"
+#include "dsi-panel-vtdr6130-visionox-cog-cmd.dtsi"
 
 &tlmm {
 	sde_dp_aux_active: sde_dp_aux_active {
@@ -36,6 +37,20 @@
 	qcom,mdss-dsi-bl-max-level = <255>;
 	qcom,mdss-brightness-max-level = <255>;
 	qcom,platform-te-gpio = <&tlmm 66 0>;
+	qcom,platform-reset-gpio = <&tlmm 75 0>;
+	qcom,platform-mipi-mode-sel = <&tlmm 10 0>;
+	qcom,platform-mipi-mode-oe = <&tlmm 11 0>;
+	qcom,platform-mipi-vdd = <&tlmm 28 0>;
+	qcom,mdss-dsi-panel-test-pin = <&tlmm 46 0>;
+};
+
+&dsi_vtdr6130_visionox_cog_cmd {
+	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
+	qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
+	qcom,mdss-dsi-bl-min-level = <10>;
+	qcom,mdss-dsi-bl-max-level = <4095>;
+	qcom,mdss-brightness-max-level = <4095>;
+	qcom,mdss-dsi-bl-inverted-dbv;
 	qcom,platform-reset-gpio = <&tlmm 75 0>;
 	qcom,platform-mipi-mode-sel = <&tlmm 10 0>;
 	qcom,platform-mipi-mode-oe = <&tlmm 11 0>;
