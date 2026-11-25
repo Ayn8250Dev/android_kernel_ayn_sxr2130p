@@ -110,6 +110,7 @@ static int fts_ts_probe_delayed(struct fts_fts_data *fts_data);
 #ifndef CONFIG_ARCH_QTI_VM
 static int fts_ts_enable_reg(struct fts_fts_data *fts_data, bool enable);
 #endif
+#if defined(CONFIG_QTS_ENABLE)
 static int fts_ts_suspend_helper(void *data);
 static int fts_ts_resume_helper(void *data);
 static int fts_ts_enable_touch_irq(void *data, bool enable);
@@ -121,6 +122,7 @@ static int fts_ts_post_le_tui_disable(void *data);
 static void fts_ts_fill_qts_vendor_data(struct qts_vendor_data *qts_vendor_data,
 		 struct fts_fts_data *core_data);
 static irqreturn_t fts_ts_irq_handler(int irq, void *data);
+#endif
 
 static void fts_ts_register_for_panel_events(struct device_node *dp,
 					struct fts_fts_data *fts_data)
@@ -1991,14 +1993,22 @@ static int fts_irq_registration(struct fts_fts_data *fts_data)
 #ifdef CONFIG_FTS_TRUSTED_TOUCH
 	pdata->irq_gpio_flags = IRQF_TRIGGER_RISING | IRQF_ONESHOT;
 	FTS_INFO("irq:%d, flag:%x", fts_data->irq, pdata->irq_gpio_flags);
+#if defined(CONFIG_QTS_ENABLE)
 	ret = request_threaded_irq(fts_data->irq, NULL, fts_ts_irq_handler,
+#else
+	ret = request_threaded_irq(fts_data->irq, NULL, fts_irq_handler,
+#endif
 				pdata->irq_gpio_flags,
 				FTS_DRIVER_NAME, fts_data);
 #else
 	fts_data->irq = gpio_to_irq(pdata->irq_gpio);
 	pdata->irq_gpio_flags = IRQF_TRIGGER_FALLING | IRQF_ONESHOT;
 	FTS_INFO("irq:%d, flag:%x", fts_data->irq, pdata->irq_gpio_flags);
+#if defined(CONFIG_QTS_ENABLE)
 	ret = request_threaded_irq(fts_data->irq, NULL, fts_ts_irq_handler,
+#else
+	ret = request_threaded_irq(fts_data->irq, NULL, fts_irq_handler,
+#endif
 				pdata->irq_gpio_flags,
 				FTS_DRIVER_NAME, fts_data);
 #endif
@@ -2811,8 +2821,10 @@ static int fts_ts_probe_entry(struct fts_fts_data *fts_data)
 {
 	int ret = 0;
 	int pdata_size = sizeof(struct fts_ts_platform_data);
+#if defined(CONFIG_QTS_ENABLE)
 	bool qts_en = false;
 	struct qts_vendor_data qts_vendor_data;
+#endif
 
 	FTS_FUNC_ENTER();
 	FTS_INFO("%s", FTS_DRIVER_VERSION);
@@ -2918,6 +2930,7 @@ static int fts_ts_probe_entry(struct fts_fts_data *fts_data)
 		goto err_probe_delayed;
 	}
 #endif
+#if defined(CONFIG_QTS_ENABLE)
 	qts_en = of_property_read_bool(fts_data->dev->of_node, "focaltech,qts_en");
 	if (qts_en) {
 		mutex_init(&fts_data->tui_transition_lock);
@@ -2930,6 +2943,7 @@ static int fts_ts_probe_entry(struct fts_fts_data *fts_data)
 		}
 		fts_data->qts_en = qts_en;
 	}
+#endif
 
 #if defined(CONFIG_DRM)
 	if (fts_data->ts_workqueue)
@@ -3239,6 +3253,7 @@ out:
 	return ret;
 }
 
+#if defined(CONFIG_QTS_ENABLE)
 static int fts_ts_suspend_helper(void *data)
 {
 	struct fts_fts_data *fts_data = data;
@@ -3386,6 +3401,7 @@ static void fts_ts_fill_qts_vendor_data(struct qts_vendor_data *qts_vendor_data,
 	qts_vendor_data->qts_vendor_ops.post_le_tui_disable = fts_ts_post_le_tui_disable;
 	qts_vendor_data->qts_vendor_ops.irq_handler = fts_ts_irq_handler;
 }
+#endif
 
 static int fts_ts_i2c_probe(struct i2c_client *client, const struct i2c_device_id *id)
 {

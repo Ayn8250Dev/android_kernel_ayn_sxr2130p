@@ -66,7 +66,9 @@
 #include <linux/gunyah/gh_mem_notifier.h>
 #endif
 #include "focaltech_common.h"
+#if defined(CONFIG_QTS_ENABLE)
 #include "../qts/qts_core_common.h"
+#endif
 
 /*****************************************************************************
 * Private constant and macro definitions using #define
@@ -314,8 +316,10 @@ struct fts_fts_data {
 	int point_num;
 	struct regulator *vdd;
 	struct regulator *vcc_i2c;
+#if defined(CONFIG_QTS_ENABLE)
 	bool qts_en;	/* indicate whether qts is enabled or not */
 	struct mutex tui_transition_lock;	/* mutex for trusted input operation */
+#endif
 #if FTS_PINCTRL_EN
 	struct pinctrl *pinctrl;
 	struct pinctrl_state *pins_active;
