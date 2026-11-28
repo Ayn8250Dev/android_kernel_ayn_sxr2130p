@@ -62,22 +62,22 @@
 		pinctrl-0 = <&ts_active>;
 		pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
 		pinctrl-2 = <&pmx_ts_release>;
-		panel = <&dsi_ch13726a_amoled_video &dsi_vtdr6130_visionox_cog_cmd>;
+		panel = <&dsi_vtdr6130_visionox_cog_cmd &dsi_ch13726a_amoled_video>;
 	};
 };
 
 &sde_dsi {
-	qcom,dsi-default-panel = <&dsi_ch13726a_amoled_video &dsi_vtdr6130_visionox_cog_cmd>;
+	qcom,dsi-default-panel = <&dsi_vtdr6130_visionox_cog_cmd &dsi_ch13726a_amoled_video>;
 };
 
 &htr3212l {
-	panel = <&dsi_ch13726a_amoled_video &dsi_vtdr6130_visionox_cog_cmd>;
+	panel = <&dsi_vtdr6130_visionox_cog_cmd &dsi_ch13726a_amoled_video>;
 };
 
 &htr3212r {
-	panel = <&dsi_ch13726a_amoled_video &dsi_vtdr6130_visionox_cog_cmd>;
+	panel = <&dsi_vtdr6130_visionox_cog_cmd &dsi_ch13726a_amoled_video>;
 };
 
 &joystick {
-	panel = <&dsi_ch13726a_amoled_video &dsi_vtdr6130_visionox_cog_cmd>;
+	panel = <&dsi_vtdr6130_visionox_cog_cmd &dsi_ch13726a_amoled_video>;
 };
